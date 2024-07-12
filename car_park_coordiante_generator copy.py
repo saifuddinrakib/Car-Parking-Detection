@@ -1,48 +1,49 @@
 import cv2
 from src.utils import Coordinate_denoter
 
-def demostration():
-    """It is the demonstration of the car_park_coordinate_generatorçpy .
-    """
 
-    
-    # creating the Coordinate_generator instance for extracting the car park coordinates
-    coordinate_generator=Coordinate_denoter()
+def demonstration():
+    """Demonstration of the car park coordinate generator."""
 
-    # reading and initialing the coordinates 
+    # Creating the Coordinate_denoter instance for extracting car park coordinates
+    coordinate_generator = Coordinate_denoter()
+
+    # Read and initialize the coordinates
     coordinate_generator.read_positions()
 
-    # setting the initial variables
+    # Set initial variables
     image_path = "data/source/example_image.png"
     rect_width, rect_height = coordinate_generator.rect_width, coordinate_generator.rect_height
 
-    # serving the GUI window until user terminates it
+    # Serve the GUI window until user terminates it
     while True:
-        
-        # refreshing the image
-        image =cv2.imread(image_path)
+        # Refresh the image
+        image = cv2.imread(image_path)
 
-        # drawing the current car park coordinates
-        for pos in coordinate_generator.car_park_positions: 
-            
-            # defning the boundaries
+        # Draw the current car park coordinates
+        for pos in coordinate_generator.car_park_positions:
+            # Define boundaries
             start = pos
-            end = (pos[0]+rect_width, pos[1]+rect_height)
+            end = (pos[0] + rect_width, pos[1] + rect_height)
 
-            # drawing the rectangle into the image
-            cv2.rectangle(image,start,end,(0,0,255),2)
-        
-        cv2.imshow("Image",image)
+            # Draw the rectangle on the image (use green color for empty spaces)
+            if coordinate_generator.is_space_empty(pos):
+                cv2.rectangle(image, start, end, (0, 255, 0), 2)  # Green for empty
+            else:
+                cv2.rectangle(image, start, end, (0, 0, 255), 2)  # Red for occupied
 
-        # linking the mouse callback
-        cv2.setMouseCallback("Image",coordinate_generator.mouseClick)
+        cv2.imshow("Image", image)
 
-        # exit condition
+        # Link the mouse callback
+        cv2.setMouseCallback("Image", coordinate_generator.mouseClick)
+
+        # Exit condition
         if cv2.waitKey(1) == ord("q"):
             break
 
-    # re-allocating the sources
+    # Release resources
     cv2.destroyAllWindows()
 
+
 if __name__ == "__main__":
-    demostration()
+    demonstration()
