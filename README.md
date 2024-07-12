@@ -32,7 +32,6 @@ Improved Detection Accuracy:
 Enhanced the model to accurately classify parking spaces, resulting in an increase from 6 to 15 green-marked (empty) parking layers in typical scenarios.
 
 <p align="center">
-<img src="data/results/example_result2.png">
 <img src="data/results/example_result.png">
 
 
